@@ -7,7 +7,7 @@ setuptools.setup(
   version="0.0.2",
   packages=setuptools.find_packages(),
   install_requires=[
-    "torch",
+    # "torch",
     "h5py",
     "numpy",
     "overrides",
