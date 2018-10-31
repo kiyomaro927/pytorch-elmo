@@ -49,8 +49,8 @@ which is different from the Wikipedia for traditional Chinese ELMo.
 
 ## Pre-requirements
 
-* **must** python >= 3.6 (if you use python3.5, you will encounter this issue https://github.com/HIT-SCIR/ELMoForManyLangs/issues/8)
-* pytorch 0.4
+* python >= 3.6
+* pytorch 1.0.0dev (See https://pytorch.org/)
 * other requirements from allennlp
 
 ## Usage
@@ -59,6 +59,7 @@ which is different from the Wikipedia for traditional Chinese ELMo.
 ### Install the package
 
 You need to install the package to use the embeddings with the following commends
+
 ```
 python setup.py install
 ```
