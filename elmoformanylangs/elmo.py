@@ -16,8 +16,7 @@ from .frontend import create_one_batch
 from .frontend import Model
 import numpy as np
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)-15s %(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)-15s %(levelname)s: %(message)s')
 
 
 def read_list(sents: List[List[str]], max_chars: Optional[int] =None):
@@ -116,6 +115,9 @@ class Embedder:
         self.word_lexicon = None
 
         self.model, self.config = self.get_model()
+
+    def __call__(self, *args, **kwargs):
+        return self.sents2elmo(*args, **kwargs)
 
     def get_model(self):
         self.use_cuda = torch.cuda.is_available()
