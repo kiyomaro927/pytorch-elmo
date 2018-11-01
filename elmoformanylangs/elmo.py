@@ -96,8 +96,6 @@ def create_batches(x: List[List[str]],
         if text is not None:
             batches_text = [batches_text[i] for i in perm]
 
-    logging.info("{} batches, avg len: {:.1f}".format(
-        nbatch, sum_len / len(x)))
     recover_ind = [item for sublist in batches_ind for item in sublist]
     if text is not None:
         return batches_w, batches_c, batches_lens, batches_masks, batches_text, recover_ind
@@ -120,6 +118,7 @@ class Embedder:
         return self.sents2elmo(*args, **kwargs)
 
     def get_model(self):
+        logging.info(f'Building ELMo...')
         self.use_cuda = torch.cuda.is_available()
         # load the model configurations
         args2 = dict2namedtuple(json.load(codecs.open(
@@ -177,7 +176,6 @@ class Embedder:
         test_w, test_c, test_lens, test_masks, test_text, recover_ind = create_batches(
             test, self.batch_size, self.word_lexicon, self.char_lexicon, self.config, text=text)
 
-        cnt = 0
         after_elmo = []
         for w, c, lens, masks, texts in zip(test_w, test_c, test_lens, test_masks, test_text):
             output = self.model.forward(w, c, masks)
@@ -193,8 +191,4 @@ class Embedder:
 
                 payload = np.average(data, axis=0) if output_layer == -1 else data[output_layer]
                 after_elmo.append(payload)
-
-                cnt += 1
-                if cnt % 1000 == 0:
-                    logging.info('Finished {0} sentences.'.format(cnt))
         return recover(after_elmo, recover_ind)
