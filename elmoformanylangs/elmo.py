@@ -14,7 +14,6 @@ from .modules.embedding_layer import EmbeddingLayer
 from .utils import dict2namedtuple
 from .frontend import create_one_batch
 from .frontend import Model
-import numpy as np
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)-15s %(levelname)s: %(message)s')
 
@@ -189,6 +188,6 @@ class Embedder:
                     data = data.cpu()
                 data = data.numpy()
 
-                payload = np.average(data, axis=0) if output_layer == -1 else data[output_layer]
+                payload = data if output_layer == -1 else data[output_layer]
                 after_elmo.append(payload)
         return recover(after_elmo, recover_ind)
